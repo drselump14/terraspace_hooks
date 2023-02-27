@@ -15,12 +15,24 @@ Install the gem and add to the application's Gemfile by executing:
 ```ruby
 
 # inside config/hooks/terraform.rb
-before("plan", execute: TerraspaceHooks::TflintValidator)
-before("plan", execute: TerraspaceHooks::TfValidator)
-after("plan", execute: TerraspaceHooks::InfracostGenerator)
 
+# run `tflint` before # terraform plan
+before("plan", execute: TerraspaceHooks::TflintValidator)
+
+# run `terraform validate` before terraform plan
+before("plan", execute: TerraspaceHooks::TfValidator)
+
+# generate infracost output after terraform plan
+after("plan", execute: TerraspaceHooks::InfracostGenerator)
+```
+
+```ruby
 # inside config/hooks/terraspace.rb
+
+# Run `terraform fmt` after terraspace build
 after("build", execute: TerraspaceHooks::TfFmtValidator)
+
+# Run `tfsec` after terraspace build
 after("build", execute: TerraspaceHooks::TfsecValidator)
 ```
 
