@@ -12,6 +12,7 @@ module TerraspaceHooks
       terraform validate
       EOF
 
+      return if ENV["SKIP_TERRASPACE_HOOKS_ALL"]
       return if ENV["SKIP_TERRASPACE_HOOKS_TF_VALIDATOR"]
 
       system(command)

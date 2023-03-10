@@ -43,6 +43,21 @@ To use InfracostGenerator, you need to add this line in
 command("plan", args: ["-out tfplan.binary"])
 ```
 
+Setting this each environment_variable below will skip the correspondent hook.
+
+```bash
+SKIP_TERRASPACE_HOOKS_TFSEC_VALIDATOR=1
+SKIP_TERRASPACE_HOOKS_TFLINT_VALIDATOR=1
+SKIP_TERRASPACE_HOOKS_TF_VALIDATOR=1
+SKIP_TERRASPACE_HOOKS_TF_FMT_VALIDATOR=1
+SKIP_TERRASPACE_HOOKS_INFRACOST_GENERATOR=1
+
+# or
+
+SKIP_TERRASPACE_HOOKS_ALL=1
+# to skip all the hooks
+```
+
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

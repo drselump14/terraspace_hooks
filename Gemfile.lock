@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    terraspace_hooks (0.1.0)
+    terraspace_hooks (0.1.1)
       zeitwerk (~> 2.6.7)
 
 GEM

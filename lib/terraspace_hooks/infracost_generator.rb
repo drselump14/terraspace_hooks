@@ -17,6 +17,7 @@ module TerraspaceHooks
       infracost output --path infracost_breakdown.json --format table --show-skipped
       EOF
 
+      return if ENV["SKIP_TERRASPACE_HOOKS_ALL"]
       return if ENV["SKIP_TERRASPACE_HOOKS_INFRACOST_GENERATOR"]
 
       system(command)

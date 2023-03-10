@@ -12,6 +12,7 @@ module TerraspaceHooks
       tflint . --disable-rule=terraform_required_version --module
       EOF
 
+      return if ENV["SKIP_TERRASPACE_HOOKS_ALL"]
       return if ENV["SKIP_TERRASPACE_HOOKS_TFLINT_VALIDATOR"]
 
       system(command)
