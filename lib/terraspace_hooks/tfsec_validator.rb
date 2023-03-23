@@ -1,25 +1,30 @@
+# frozen_string_literal: true
+
 module TerraspaceHooks
+  # validate the terraform code with tfsec
   class TfsecValidator
+    # rubocop:disable Metrics/MethodLength
     def call(runner)
-      raise "Tfsec not available" unless tfsec_available?
+      raise 'Tfsec not available' unless tfsec_available?
 
       mod = runner.mod
-      command = <<-EOF
-      YELLOW='\033[0;33m'
-      NC='\033[0m'
-      cd #{mod.cache_dir} && \
-      echo "${YELLOW}[INFO #{mod.name}]${NC} Run tfsec for #{mod.name}..." && \
-      tfsec --concise-output
-      EOF
+      command = <<-COMMAND
+        YELLOW='\033[0;33m'
+        NC='\033[0m'
+        cd #{mod.cache_dir} && \
+        echo "${YELLOW}[INFO #{mod.name}]${NC} Run tfsec for #{mod.name}..." && \
+        tfsec --concise-output
+      COMMAND
 
-      return if ENV["SKIP_TERRASPACE_HOOKS_ALL"]
-      return if ENV["SKIP_TERRASPACE_HOOKS_TFSEC_VALIDATOR"]
+      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
+      return if ENV['SKIP_TERRASPACE_HOOKS_TFSEC_VALIDATOR']
 
       system(command)
     end
+    # rubocop:enable Metrics/MethodLength
 
     def tfsec_available?
-      system("which tfsec")
+      system('which tfsec')
     end
   end
 end
