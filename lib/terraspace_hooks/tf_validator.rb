@@ -19,7 +19,7 @@ module TerraspaceHooks
       return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
       return if ENV['SKIP_TERRASPACE_HOOKS_TF_VALIDATOR']
 
-      system(command)
+      system(command, exception: true)
     end
     # rubocop:enable Metrics/MethodLength
 
