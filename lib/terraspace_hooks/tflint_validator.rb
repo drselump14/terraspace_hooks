@@ -5,6 +5,9 @@ module TerraspaceHooks
   class TflintValidator
     # rubocop:disable Metrics/MethodLength
     def call(runner)
+      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
+      return if ENV['SKIP_TERRASPACE_HOOKS_TFLINT_VALIDATOR']
+
       raise 'Tflint not available' unless tflint_available?
 
       mod = runner.mod
@@ -15,9 +18,6 @@ module TerraspaceHooks
         echo "${YELLOW}[INFO #{mod.name}]${NC} Run tflint for #{mod.name}..." && \
         tflint . --disable-rule=terraform_required_version --module
       COMMAND
-
-      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
-      return if ENV['SKIP_TERRASPACE_HOOKS_TFLINT_VALIDATOR']
 
       system(command, exception: true)
     end

@@ -5,6 +5,9 @@ module TerraspaceHooks
   class TfsecValidator
     # rubocop:disable Metrics/MethodLength
     def call(runner)
+      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
+      return if ENV['SKIP_TERRASPACE_HOOKS_TFSEC_VALIDATOR']
+
       raise 'Tfsec not available' unless tfsec_available?
 
       mod = runner.mod
@@ -15,9 +18,6 @@ module TerraspaceHooks
         echo "${YELLOW}[INFO #{mod.name}]${NC} Run tfsec for #{mod.name}..." && \
         tfsec --concise-output
       COMMAND
-
-      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
-      return if ENV['SKIP_TERRASPACE_HOOKS_TFSEC_VALIDATOR']
 
       system(command, exception: true)
     end

@@ -5,6 +5,9 @@ module TerraspaceHooks
   class InfracostGenerator
     # rubocop:disable Metrics/MethodLength
     def call(runner)
+      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
+      return if ENV['SKIP_TERRASPACE_HOOKS_INFRACOST_GENERATOR']
+
       raise 'Infracost not available' unless infracost_available?
       raise 'Terraform not available' unless terraform_available?
 
@@ -20,9 +23,6 @@ module TerraspaceHooks
         infracost breakdown --project-name #{mod.name} --path plan.json --format json --out-file infracost_breakdown.json && \
         infracost output --path infracost_breakdown.json --format table --show-skipped
       COMMAND
-
-      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
-      return if ENV['SKIP_TERRASPACE_HOOKS_INFRACOST_GENERATOR']
 
       system(command, exception: true)
     end

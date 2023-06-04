@@ -5,6 +5,9 @@ module TerraspaceHooks
   class TfValidator
     # rubocop:disable Metrics/MethodLength
     def call(runner)
+      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
+      return if ENV['SKIP_TERRASPACE_HOOKS_TF_VALIDATOR']
+
       raise 'Terraform not available' unless terraform_available?
 
       mod = runner.mod
@@ -15,9 +18,6 @@ module TerraspaceHooks
         echo "${YELLOW}[INFO #{mod.name}]${NC} Run terraform validate for #{mod.name}..." && \
         terraform validate
       COMMAND
-
-      return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
-      return if ENV['SKIP_TERRASPACE_HOOKS_TF_VALIDATOR']
 
       system(command, exception: true)
     end
