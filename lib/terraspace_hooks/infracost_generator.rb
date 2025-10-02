@@ -17,7 +17,7 @@ module TerraspaceHooks
         NC='\033[0m'
         cd #{mod.cache_dir} && \
         echo "${YELLOW}[INFO #{mod.name}]${NC} Convert to plan.json..." && \
-        terraform show -json tfplan.binary > plan.json && \
+        #{terraform_bin} show -json tfplan.binary > plan.json && \
 
         echo "${YELLOW}[INFO #{mod.name}]${NC} Infracost breakdown for #{mod.name}..." && \
         infracost breakdown --project-name #{mod.name} --path plan.json --format json --out-file infracost_breakdown.json && \
@@ -32,8 +32,12 @@ module TerraspaceHooks
       system('which infracost')
     end
 
+    def terraform_bin
+      ENV['TERRASPACE_HOOKS_BIN'] || 'tofu'
+    end
+
     def opentofu_available?
-      system('which tofu')
+      system("which #{terraform_bin}")
     end
   end
 end

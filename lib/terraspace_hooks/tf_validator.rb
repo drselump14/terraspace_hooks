@@ -15,16 +15,20 @@ module TerraspaceHooks
         YELLOW='\033[0;33m'
         NC='\033[0m'
         cd #{mod.cache_dir} && \
-        echo "${YELLOW}[INFO #{mod.name}]${NC} Run terraform validate for #{mod.name}..." && \
-        terraform validate
+        echo "${YELLOW}[INFO #{mod.name}]${NC} Run #{terraform_bin} validate for #{mod.name}..." && \
+        #{terraform_bin} validate
       COMMAND
 
       system(command, exception: true)
     end
     # rubocop:enable Metrics/MethodLength
 
+    def terraform_bin
+      ENV['TERRASPACE_HOOKS_BIN'] || 'tofu'
+    end
+
     def opentofu_available?
-      system('which tofu')
+      system("which #{terraform_bin}")
     end
   end
 end

@@ -16,7 +16,7 @@ module TerraspaceHooks
         NC='\033[0m'
         cd #{mod.cache_dir} && \
         echo "${YELLOW}[INFO #{mod.name}]${NC} Run tflint for #{mod.name}..." && \
-        tflint . --disable-rule=terraform_required_version --module
+        tflint --disable-rule=terraform_required_version --call-module-type=all
       COMMAND
 
       system(command, exception: true)
