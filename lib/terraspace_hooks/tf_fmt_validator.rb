@@ -8,7 +8,7 @@ module TerraspaceHooks
       return if ENV['SKIP_TERRASPACE_HOOKS_ALL']
       return if ENV['SKIP_TERRASPACE_HOOKS_TF_FMT_VALIDATOR']
 
-      raise 'Terraform not available' unless terraform_available?
+      raise 'Terraform not available' unless opentofu_available?
 
       mod = runner.mod
       command = <<-COMMAND
@@ -23,8 +23,8 @@ module TerraspaceHooks
     end
     # rubocop:enable Metrics/MethodLength
 
-    def terraform_available?
-      system('which terraform')
+    def opentofu_available?
+      system('which tofu')
     end
   end
 end
